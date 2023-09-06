@@ -7,29 +7,46 @@
 </head>
 <body>
     <div>
-        inf
+        INF M364 P I
+        <br>
 IP
+<br>
 LF: 192.168.210.1
-
+<br>
 LP: 192.168.210.22
-
+<br>
 WP: 192.168.210.33
-
+<br>
 how
+<br>
 LP:
+<br>
 sudo apt-get update
+<br>
 sudo apt-get install openssh-server
+<br>
 sudo apt-get ssh status
+<br>
 WP:
+<br>
 ssh vmadmin@192.168.210.22
+<br>
 ssh-keygen
+<br>
 scp C:\Users\vmadmin\.ssh\id_rsa.pub vmadmin@192.162.210.22:~/.ssh
+<br>
 LP:
+<br>
 cat /home/vmadmin/.ssh/id_rsa.pub >> /home/vmadmin/.ssh/authorized_keys
+<br>
 WP:
+<br>
 ssh -i C:\Users\vmadmin\.ssh\id_rsa vmadmin@192.162.210.22
+<br>
 LP:
+<br>
 /etc/ssh/sshd_config öffnen und nach PasswordAuthentication auf no setzten und # weg
+<br>
 
 sudo service ssh restart
     </div>
