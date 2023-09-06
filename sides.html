@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+1.2 Aufgabenstellung
+Aufgabe 1: IP Adressen bestimmen
+Bestimmen Sie die IP-Adressen die auf Ihrem Rechner konkret verwendet werden:
+Die durch den Schulrouter vergebene DHCP-Adresse Ihres lokalen Rechners: .............................
+Die IP-Adresse des Routers LAN-seitig (x.y.z.t): ................................................................. 
+DieIP-AdressederUbuntu-(a.b.c.d)undWindowsmaschine(e.f.g.h):................................................... DerNamedesBenutzersaufderUbuntumaschine(<user>):...................................................
+Tipp: Verwenden Sie auf Windows das Kommando ipconfig und auf der Ubuntumaschine das Kommandoip addrundaufdemRouterdasKommandoifconfig.AufdemRouterkönnenSie
+sich mit root und Riethuesli>12345 anmelden.
+ 
+
+ Aufgabe 2: ping
+StellenSiesicher,dassSievonWP1ausdieLPanpingenkönnen:ping a.b.c.d StellenSiesicher,dassSievonLPausInternetzuganghaben:ping www.gbssg.ch
+Aufgabe 3: ssh-Server
+Stellen Sie sicher, dass auf der Ubuntumaschine der ssh-Server installiert ist und der Dienst läuft:
+sudo apt-get update
+sudo apt-get install openssh-server
+sudo service ssh status
+Aufgabe 4: ssh-Verbindung mit Passwort
+Versuchen Sie von WP1 aus eine ssh-Verbindung zur LP herzustellen:
+ssh <user>@a.b.c.d
+Sie werden gefragt ob Sie die Ubuntumaschine zur Liste der bekannten Hosts hinzufügen möchten. Antworten Sie mit yes. Sie sollten nun als vmadmin auf LP1 angemeldet sein. Überprüfen Sie das mit dem Kommando whoami.
+Aufgabe 5: ssh-Verbindung mit publickey
+Erstellen Sie auf dem WP1 (Windows) ein Schlüsselpaar bestehend aus dem öffentlichen und dem privaten Schlüssel:
+ssh-keygen
+Der private Schlüssel (id_rsa) sollte die Maschine nie verlassen, da geheim. Der öffentli- chen Schlüssel (id_rsa.pub) muss von WP1 aus auf die Ubuntumaschine in die Datei /ho- me/<user>/.ssh/authorized_keys hineinkopiert werden. Dazu gibt es mehrere Möglichkei- ten:
+1. Sie können die Datei authorized_keys z.B. mit dem nano-Editor bearbeiten und den Inhalt von id_rsa.pub dort mit copy/paste hineinkopieren. Sollte diese Datei oder der Ordner nicht existieren, erstellen Sie diese.
+2. Sie können die Datei id_rsa.pub mit scp (secure copy) auf die Ubuntumaschine kopieren. Verwenden Sie auf WP1 dazu dieses Kommando:
+scp c:\Users\vmadmin\.ssh\id_rsa.pub vmadmin@192.168.210.22:~/.ssh (scp beruht auf ssh, die ssh-Verbindung mit Passwort muss also schon funktionieren) Ansch- liessend können Sie den Inhalt von id_rsa.pub in die Datei authorized_keys hineinkopieren. Verwenden Sie dazu auf Ubuntu das Kommando
+    cat /home/vmadmin/.ssh/id_rsa.pub >> /home/vmadmin/.ssh/authorized_keys
+3. SiekönnendenSchlüsselmiteinerPipeauchdirektindieDateiauthorized_keyshineinkopieren:
+    type c:\users\vmadmin\.ssh\id_rsa.pub | ssh vmadmin@192.168.210.22
+    "cat >> ~/.ssh/authorized_keys"
+   ©2023 gbssg.ch | Modul 346 | 01-AA-PKAuthentifizierung 2
+
+Dokumentieren Sie alle 3 Arten der Schlüsselübertragung.
+Versuchen Sie nun erneut eine ssh-Verbindung herzustellen, bei welcher der private Schlüssel angege- ben wird:
+ssh -i c:\pfad\zu\id_rsa <user>@a.b.c.d
+Die Verbindung sollte nun ohne Angabe des Passwortes klappen.
+Die Verbindung kann mit exit oder logout wieder getrennt werden.
+Aufgabe 6: Zugang mit Passwort deaktivieren
+Editieren Sie die Datei sshd_config
+sudo nano /etc/ssh/sshd_config
+SuchenSiedenEintragPasswordAuthentication yesundsetzenSiedenWertaufno.Danach müssen Sie den Dienst neu starten:
+sudo service ssh restart
+Um zu Testen, ob der Zugang mit Passwort ausgeschaltet ist, können Sie Datei authorized_keys kurz- zeitigumbenennenundversuchensicherneutvonWP1ausanzumelden:ssh vmadmin@a.b.c.d. Dies sollte nun nicht mehr möglich sein.
+
+</body>
+</html>
